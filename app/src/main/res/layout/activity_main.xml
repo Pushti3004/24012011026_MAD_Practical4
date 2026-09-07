@@ -9,11 +9,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,9 +20,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="MAD_Alarm_Practical"
-                android:textSize="25dp"
+                android:textSize="25sp"
                 android:layout_margin="15dp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
             </TextView>
@@ -38,7 +33,6 @@
                 android:layout_margin="10dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="20dp"
-                android:backgroundTint="#EEF0EE"
                 app:layout_constraintTop_toBottomOf="@id/MAD_Pr">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,7 +56,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:text="Create Alarm Time"
-                        android:textSize="20dp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
                         app:layout_constraintTop_toBottomOf="@id/clock">
 
@@ -73,8 +67,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:textColor="#616161"
-                        android:textSize="15dp"
+                        android:textSize="15sp"
                         android:text="By pressing buttons, Alarm can be created and cancelled."
                         app:layout_constraintTop_toBottomOf="@id/txt1">
 
@@ -85,7 +78,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:textColor="#616161"
                         android:textSize="15sp"
                         android:text="Check Current time by looking below real digital clock."
                         app:layout_constraintTop_toBottomOf="@id/txt2">
@@ -105,19 +97,18 @@
 
                     </TextClock>
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/CreateAlarm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="#43A047"
                         android:layout_marginTop="10dp"
                         android:drawableLeft="@drawable/outline_alarm_add_24"
-                        android:drawableTint="@color/white"
                         android:text="Create Alarm"
                         app:layout_constraintStart_toStartOf="@id/txt3"
                         app:layout_constraintTop_toBottomOf="@id/Time1">
 
-                    </Button>
+                    </com.google.android.material.button.MaterialButton>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -130,9 +121,7 @@
                 android:layout_margin="10dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="20dp"
-                android:backgroundTint="#EEF0EE"
-                app:layout_constraintTop_toBottomOf="@id/card1"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/card1">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -175,19 +164,17 @@
 
                     </TextClock>
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/CancelAlarm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="#43A047"
-                        android:layout_marginHorizontal="10dp"
                         android:drawableLeft="@drawable/baseline_alarm_off_24"
-                        android:drawableTint="@color/white"
                         android:text="Cancel Alarm"
                         app:layout_constraintStart_toStartOf="@id/txt4"
                         app:layout_constraintTop_toBottomOf="@id/Time2">
 
-                    </Button>
+                    </com.google.android.material.button.MaterialButton>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

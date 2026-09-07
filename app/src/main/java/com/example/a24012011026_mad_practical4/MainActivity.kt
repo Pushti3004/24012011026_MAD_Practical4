@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
             insets
         }
         textAlarm = findViewById<TextView>(R.id.Time1)
-        cardSetAlarm = findViewById(R.id.card1)
-        cardSetAlarm.visibility = View.GONE
+        cardSetAlarm = findViewById(R.id.card2)
+        //cardSetAlarm.visibility = View.GONE
         findViewById<MaterialButton>(R.id.CreateAlarm).setOnClickListener {
 
         }
