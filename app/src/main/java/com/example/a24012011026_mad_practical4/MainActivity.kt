@@ -1,6 +1,9 @@
 package com.example.a24012011026_mad_practical4
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
@@ -13,53 +16,112 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var textAlarm: TextView
-    lateinit var cardSetAlarm: MaterialCardView
+    private lateinit var btnCreateAlarm: MaterialButton
+    private lateinit var btnCancelAlarm: MaterialButton
+    private lateinit var txtCurrentTime: TextView
+    private lateinit var txtAlarmTime: TextView
+
+    private lateinit var alarmManager: AlarmManager
+    private lateinit var pendingIntent: PendingIntent
+
+    private val calendar = Calendar.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom
+            )
             insets
         }
-        textAlarm = findViewById<TextView>(R.id.Time1)
-        cardSetAlarm = findViewById(R.id.card2)
-        //cardSetAlarm.visibility = View.GONE
-        findViewById<MaterialButton>(R.id.CreateAlarm).setOnClickListener {
 
+        btnCreateAlarm = findViewById(R.id.CreateAlarm)
+        btnCancelAlarm = findViewById(R.id.CancelAlarm)
+        txtCurrentTime = findViewById(R.id.Time1)
+        txtAlarmTime = findViewById(R.id.Time2)
+
+        txtCurrentTime.text = SimpleDateFormat(
+            "hh:mm:ss a MMM,dd yyyy",
+            Locale.getDefault()
+        ).format(calendar.time)
+
+        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+
+
+        btnCreateAlarm.setOnClickListener {
+
+            TimePickerDialog(
+                this,
+                { _, hour, minute ->
+
+                    calendar.set(Calendar.HOUR_OF_DAY, hour)
+                    calendar.set(Calendar.MINUTE, minute)
+                    calendar.set(Calendar.SECOND, 0)
+
+                    txtAlarmTime.text = SimpleDateFormat(
+                        "hh:mm a",
+                        Locale.getDefault()
+                    ).format(calendar.time)
+
+                    val intent = Intent(this, AlarmBroadcastReceiver::class.java)
+
+                    intent.putExtra(
+                        AlarmBroadcastReceiver.SERVICE_KEY,
+                        AlarmBroadcastReceiver.START_VAL
+                    )
+
+                    val pendingIntent = PendingIntent.getBroadcast(
+                        this,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    )
+
+                    alarmManager.set(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        pendingIntent
+                    )
+
+                },
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                false
+            ).show()
         }
-        findViewById<MaterialButton>(R.id.CancelAlarm).setOnClickListener {
 
+        btnCancelAlarm.setOnClickListener {
+
+            val intent = Intent(this, AlarmBroadcastReceiver::class.java)
+
+            intent.putExtra(
+                AlarmBroadcastReceiver.SERVICE_KEY,
+                AlarmBroadcastReceiver.STOP_VAL
+            )
+
+            val pendingIntent = PendingIntent.getBroadcast(
+                this,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            alarmManager.cancel(pendingIntent)
+
+            sendBroadcast(intent)
+
+            txtAlarmTime.text = "00 : 00"
         }
-    }
-    private fun showTimeDialog(){
-        val cldr: Calendar = Calendar.getInstance()
-        val h:Int = cldr.get(Calendar.HOUR_OF_DAY)
-        val n:Int = cldr.get(Calendar.MINUTE)
-        val picker = TimePickerDialog(
-            this,{tp,sHour,sMinute->sendDialogDataToActivity(sHour,sMinute)},
-            h,n,false
-        )
-        picker.show()
-    }
-
-    private fun sendDialogDataToActivity(hour: Int,minute: Int){
-        val alarmCalendar = Calendar.getInstance()
-        val year: Int = alarmCalendar.get(Calendar.YEAR)
-        val month: Int = alarmCalendar.get(Calendar.MONTH)
-        val day: Int = alarmCalendar.get(Calendar.DATE)
-        alarmCalendar.set(year,month,day,hour,minute,0)
-        textAlarm.text = SimpleDateFormat("hh mm ss a").format(alarmCalendar.time)
-        Toast.makeText(
-            this,
-            "Time: hours:${hour}, minutes:${minute}" +
-                    "mills:${alarmCalendar.timeInMillis}",
-            Toast.LENGTH_SHORT
-        ).show()
     }
 }

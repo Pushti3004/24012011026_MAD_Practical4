@@ -7,23 +7,35 @@ import android.os.IBinder
 
 class AlarmService : Service() {
 
-    var np: MediaPlayer?=null
+    lateinit var mediaPlayer: MediaPlayer
+
+    override fun onBind(intent: Intent): IBinder {
+        throw UnsupportedOperationException("Not yet implemented")
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.alarm)
+        mediaPlayer.isLooping = true
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if(intent!=null){
-            if (np == null){
-                np = MediaPlayer.create(this,R.raw.alarm)
-            }
-            np?.start()
+
+        if (!mediaPlayer.isPlaying) {
+            mediaPlayer.start()
         }
+
         return START_STICKY
     }
 
     override fun onDestroy() {
-        np?.stop()
-        super.onDestroy()
-    }
 
-    override fun onBind(intent: Intent): IBinder {
-        TODO("Return the communication channel to the service.")
+        if (this::mediaPlayer.isInitialized) {
+            mediaPlayer.stop()
+            mediaPlayer.release()
+        }
+
+        super.onDestroy()
     }
 }
