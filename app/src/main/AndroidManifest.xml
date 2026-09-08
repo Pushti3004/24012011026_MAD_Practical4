@@ -22,11 +22,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".Raw"
-            android:enabled="true"
-            android:exported="true" />
-
         <receiver
             android:name=".AlarmBroadcastReceiver"
             android:enabled="true"
@@ -37,10 +32,6 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-    </application>
+        </application>
 
 </manifest>

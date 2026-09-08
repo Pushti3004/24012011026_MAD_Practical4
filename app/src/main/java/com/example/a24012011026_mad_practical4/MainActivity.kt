@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                     calendar.set(Calendar.SECOND, 0)
 
                     txtAlarmTime.text = SimpleDateFormat(
-                        "hh:mm a",
+                        "hh:mm:ss a",
                         Locale.getDefault()
                     ).format(calendar.time)
 
@@ -91,9 +91,7 @@ class MainActivity : AppCompatActivity() {
                     alarmManager.set(
                         AlarmManager.RTC_WAKEUP,
                         calendar.timeInMillis,
-                        pendingIntent
-                    )
-
+                        pendingIntent)
                 },
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
