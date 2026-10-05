@@ -24,10 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnCancelAlarm: MaterialButton
     private lateinit var txtCurrentTime: TextView
     private lateinit var txtAlarmTime: TextView
-
     private lateinit var alarmManager: AlarmManager
-    private lateinit var pendingIntent: PendingIntent
-
     private val calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,12 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
-            )
+            v.setPadding(systemBars.left,systemBars.top,systemBars.right,systemBars.bottom)
             insets
         }
 
@@ -58,13 +50,10 @@ class MainActivity : AppCompatActivity() {
 
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
-
         btnCreateAlarm.setOnClickListener {
-
             TimePickerDialog(
                 this,
                 { _, hour, minute ->
-
                     calendar.set(Calendar.HOUR_OF_DAY, hour)
                     calendar.set(Calendar.MINUTE, minute)
                     calendar.set(Calendar.SECOND, 0)
